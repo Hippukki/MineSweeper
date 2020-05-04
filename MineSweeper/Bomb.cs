@@ -19,11 +19,6 @@ namespace MineSweeper
             this.Count = Count;
         }
 
-        public void Boom(Cell cell)
-        {
-            string col = "Red";
-            cell.BackColor = Color.FromName(col);
-            new BadPlayWindow().ShowDialog();
-        }
+
     }
 }

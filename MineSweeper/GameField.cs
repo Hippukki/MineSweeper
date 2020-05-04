@@ -16,6 +16,7 @@ namespace MineSweeper
         int countbomb = 0;
         int width = 10;
         int height = 10;
+        List<Cell> cells = new List<Cell>();
         public GameField()
         {
             InitializeComponent();
@@ -40,25 +41,56 @@ namespace MineSweeper
                         cell.Number = new Number("", 0);
                     }
                     Controls.Add(cell);
-                    cell.Click += new EventHandler(ClickOnCell);
+                    cell.MouseUp += new MouseEventHandler(ClickOnCell);
+                    cells.Add(cell);
                 }
             }
+
         }
 
-        void ClickOnCell(object sender, EventArgs e)
+        void ClickOnCell(object sender, MouseEventArgs e)
         {
             Cell cell = (Cell)sender;
-            if(cell.Bomb != null)
+            if(e.Button == MouseButtons.Left)
             {
-                cell.Bomb.Boom(cell);
-                cell.Bomb.IsBlown = true;
-                this.Close();
+                if (cell.Bomb != null)
+                {
+                    Boom();
+                    cell.Bomb.IsBlown = true;
+                    this.Close();
+                }
+                else if (cell.Number != null)
+                {
+                    ClickingEmptyCell(cell);
+                    cell.IsOpen = true;
+                }
             }
-            else if(cell.Number != null)
+            else if(e.Button == MouseButtons.Right)
             {
-                cell.IsOpen = true;
-                
+
             }
+        }
+        public void Boom()
+        {
+            foreach (Cell cell in cells)
+            {
+                if (cell.Bomb != null)
+                {
+                    string col = "Red";
+                    cell.BackColor = Color.FromName(col);
+                }
+            }
+            new BadPlayWindow().ShowDialog();
+        }
+        public void ClickingEmptyCell(Cell cell)
+        {
+
+        }
+        public void CountBombAround(Cell cell)
+        {
+            
+
+            
         }
     }
 

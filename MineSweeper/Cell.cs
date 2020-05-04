@@ -26,9 +26,5 @@ namespace MineSweeper
 
         }
 
-        public void GetNumber(Number number)
-        {
-
-        }
     }
 }

@@ -16,5 +16,10 @@ namespace MineSweeper
         {
             InitializeComponent();
         }
+
+        private void GoodPlayWindow_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

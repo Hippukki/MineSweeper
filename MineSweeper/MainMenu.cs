@@ -30,7 +30,7 @@ namespace MineSweeper
 
         private void TextBox1_TextChanged(object sender, EventArgs e)
         {
-
+            textBox1.Clear();
         }
     }
 }

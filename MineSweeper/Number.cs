@@ -19,7 +19,10 @@ namespace MineSweeper
             this.Value = Value;
         }
   
-        
+        public void GetNumber(Cell cell)
+        {
+            
+        }
         
     }
 }

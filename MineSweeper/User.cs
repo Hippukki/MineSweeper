@@ -11,7 +11,7 @@ namespace MineSweeper
     public class User
     {
         public string NickName { get; set; }
-        public Stopwatch Score { get; set; }
+        public Stopwatch TimeScore { get; set; }
 
         public User(string NickName)
         {
@@ -22,7 +22,7 @@ namespace MineSweeper
         {
             if(user != null)
             {
-                user.Score.Start();
+                user.TimeScore.Start();
             }
             return user;
         }

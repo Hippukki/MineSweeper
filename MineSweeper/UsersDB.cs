@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,10 +12,10 @@ namespace MineSweeper
     class UsersDB
     {
         Dictionary<string, User> users;
-        Serializer<Dictionary<string, User>> serializer;
         int autoincrement = 1;
         string filePath;
         static UsersDB instance;
+        BinaryFormatter formatter;
         
         public static UsersDB GetInstance()
         {
@@ -26,12 +28,18 @@ namespace MineSweeper
 
         private UsersDB()
         {
-            filePath = "status.bin";
-            serializer = new Serializer<Dictionary<string, User>>(filePath);
-            users = serializer.Load(ref autoincrement);
+            filePath = "users.bin";
+            formatter = new BinaryFormatter();
+            using(FileStream fs = new FileStream(filePath, FileMode.OpenOrCreate))
+            {
+                formatter.Serialize(fs, users);
+            }
         }
 
-        public void Save() => serializer.Save(users, autoincrement);
+        public void Save()
+        {
+
+        }
 
         public User CreateUser(string NickName)
         {
@@ -40,8 +48,6 @@ namespace MineSweeper
             users.Add(user.NickName, user);
             return user;
         }
-
-        //public User SaveUserScore(string NickName) { }
 
     }
 }
