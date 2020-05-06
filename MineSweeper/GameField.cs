@@ -88,9 +88,7 @@ namespace MineSweeper
         }
         public void CountBombAround(Cell cell)
         {
-            
-
-            
+                       
         }
     }
 
