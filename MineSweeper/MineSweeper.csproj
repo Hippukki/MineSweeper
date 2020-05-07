@@ -58,7 +58,6 @@
     <Compile Include="Cell.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="GameBoard.cs" />
     <Compile Include="GameField.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,6 +112,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -126,6 +126,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NumbersMS.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\One.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Two.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\three.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\four.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Bomb.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Nothing.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Flag.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

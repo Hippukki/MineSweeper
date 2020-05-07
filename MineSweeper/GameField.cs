@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MineSweeper.Properties;
 
 namespace MineSweeper
 {
@@ -17,6 +18,7 @@ namespace MineSweeper
         int width = 10;
         int height = 10;
         List<Cell> cells = new List<Cell>();
+        Cell[,] cellsfield;
         public GameField()
         {
             InitializeComponent();
@@ -24,15 +26,16 @@ namespace MineSweeper
 
         private void GameField_Load(object sender, EventArgs e)
         {
+            cellsfield = new Cell[width, height];
             Random rnd = new Random();
-            for (int x = 10; (x - 10) < width * distancebetweenbuttons; x += distancebetweenbuttons)
+            for (int y = 0; y < width; y++)
             {
-                for (int y = 10; (y - 10) < height * distancebetweenbuttons; y += distancebetweenbuttons)
+                for (int x = 0; x < height; x++)
                 {
                     Cell cell = new Cell(false, null, null);
-                    cell.Location = new Point(x, y);
-                    cell.Size = new Size(30, 30);
-                    if (rnd.Next(0, 101) < 20)
+                    cell.Location = new Point(x * distancebetweenbuttons, y * distancebetweenbuttons);
+                    cell.Size = new Size(distancebetweenbuttons, distancebetweenbuttons);
+                    if (rnd.Next(0, 100) < 20)
                     {
                         cell.Bomb = new Bomb(false, countbomb++);
                     }
@@ -43,6 +46,7 @@ namespace MineSweeper
                     Controls.Add(cell);
                     cell.MouseUp += new MouseEventHandler(ClickOnCell);
                     cells.Add(cell);
+                    cellsfield[x, y] = cell;
                 }
             }
 
@@ -51,7 +55,7 @@ namespace MineSweeper
         void ClickOnCell(object sender, MouseEventArgs e)
         {
             Cell cell = (Cell)sender;
-            if(e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Left)
             {
                 if (cell.Bomb != null)
                 {
@@ -65,9 +69,9 @@ namespace MineSweeper
                     cell.IsOpen = true;
                 }
             }
-            else if(e.Button == MouseButtons.Right)
+            else if (e.Button == MouseButtons.Right)
             {
-
+                cell.Image = Resources.Flag;
             }
         }
         public void Boom()
@@ -76,21 +80,69 @@ namespace MineSweeper
             {
                 if (cell.Bomb != null)
                 {
-                    string col = "Red";
-                    cell.BackColor = Color.FromName(col);
+                    cell.Image = Resources.Bomb;
+                }
+                else
+                {
+                    ClickingEmptyCell(cell);
                 }
             }
             new BadPlayWindow().ShowDialog();
         }
         public void ClickingEmptyCell(Cell cell)
         {
-
+            int bombsAround = 0;
+            for (int y = 0; y < width; y++)
+            {
+                for (int x = 0; x < height; x++)
+                {
+                    if (cellsfield[x, y] == cell)
+                    {
+                        bombsAround = CountBombsAround(x, y);
+                    }
+                }
+            }
+            if (bombsAround == 0)
+            {
+                cell.Image = Resources.Nothing;
+            }
+            else if(bombsAround == 1)
+            {
+                cell.Image = Resources.One;
+            }
+            else if(bombsAround == 2)
+            {
+                cell.Image = Resources.Two;
+            }
+            else if(bombsAround == 3)
+            {
+                cell.Image = Resources.three;
+            }
+            else if(bombsAround == 4)
+            {
+                cell.Image = Resources.four;
+            }
         }
-        public void CountBombAround(Cell cell)
+        int CountBombsAround(int abscissa, int ordinate)
         {
-                       
+            int bombsAround = 0;
+            for (int x = abscissa - 1; x <= abscissa + 1; x++)
+            {
+                for (int y = ordinate - 1; y <= ordinate + 1; y++)
+                {
+                    if (x >= 0 && x < height && y >= 0 && y < width)
+                    {
+                        if (cellsfield[x, y].Bomb != null)
+                        {
+                            bombsAround++;
+                        }
+                    }
+                }
+            }
+            return bombsAround;
         }
-    }
 
-    
+
+
+    }
 }
