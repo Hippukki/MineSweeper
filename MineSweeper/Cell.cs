@@ -21,10 +21,5 @@ namespace MineSweeper
             this.Bomb = Bomb;
         }
 
-        public void Opening(Cell cell)
-        {
-
-        }
-
     }
 }

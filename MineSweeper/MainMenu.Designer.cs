@@ -60,7 +60,7 @@
             this.textBox1.TabIndex = 1;
             this.textBox1.Text = "NickName";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox1.TextChanged += new System.EventHandler(this.TextBox1_TextChanged);
+            this.textBox1.Click += new System.EventHandler(this.TextBox1_Click);
             // 
             // comboBox1
             // 

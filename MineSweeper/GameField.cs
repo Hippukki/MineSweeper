@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -19,12 +20,25 @@ namespace MineSweeper
         int height = 10;
         List<Cell> cells = new List<Cell>();
         Cell[,] cellsfield;
+        public User user;
         public GameField()
         {
             InitializeComponent();
         }
+        public GameField(User user)
+        {
+            InitializeComponent();
+            this.user = user;
+            start_timer(user);
+
+
+        }
 
         private void GameField_Load(object sender, EventArgs e)
+        {
+            CellGeneration();
+        }
+        public void CellGeneration()
         {
             cellsfield = new Cell[width, height];
             Random rnd = new Random();
@@ -49,7 +63,6 @@ namespace MineSweeper
                     cellsfield[x, y] = cell;
                 }
             }
-
         }
 
         void ClickOnCell(object sender, MouseEventArgs e)
@@ -72,6 +85,8 @@ namespace MineSweeper
             else if (e.Button == MouseButtons.Right)
             {
                 cell.Image = Resources.Flag;
+                if (cell.Bomb != null)
+                    cell.Bomb = null;
             }
         }
         public void Boom()
@@ -122,6 +137,10 @@ namespace MineSweeper
             {
                 cell.Image = Resources.four;
             }
+            else if(bombsAround == 5)
+            {
+                cell.Image = Resources.five;
+            }
         }
         int CountBombsAround(int abscissa, int ordinate)
         {
@@ -141,8 +160,24 @@ namespace MineSweeper
             }
             return bombsAround;
         }
+        public void start_timer(User user)
+        {
+            user.Timer = DateTime.Now;
 
+            Timer timer = new Timer();
+            timer.Interval = 10;
+            timer.Tick += new EventHandler(tickTimer);
+            timer.Start();
+        }
 
+        public void tickTimer(object sender, EventArgs e)
+        {
+            long tick = DateTime.Now.Ticks - user.Timer.Ticks;
+            DateTime stopWatch = new DateTime();
+
+            stopWatch = stopWatch.AddTicks(tick);
+            label1.Text = String.Format("{0:mm:ss}", stopWatch);
+        }
 
     }
 }

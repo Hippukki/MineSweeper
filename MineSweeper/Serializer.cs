@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace MineSweeper
 {
+    [Serializable]
     public class Serializer<T>
     {
         static BinaryFormatter binaryFormatter =
@@ -51,6 +52,5 @@ namespace MineSweeper
                     Deserialize(fs);
             }
         }
-
     }
 }

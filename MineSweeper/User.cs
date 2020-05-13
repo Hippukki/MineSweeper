@@ -10,21 +10,19 @@ namespace MineSweeper
     [Serializable]
     public class User
     {
+        public int ID { get; set; }
         public string NickName { get; set; }
-        public Stopwatch TimeScore { get; set; }
+        public DateTime Timer { get; set; }
 
-        public User(string NickName)
+        public User(int ID)
+        {
+            this.ID = ID;
+        }
+        public User(string NickName, DateTime Timer)
         {
             this.NickName = NickName;
-        }
+            this.Timer = Timer;
 
-        public User StartTime(User user)
-        {
-            if(user != null)
-            {
-                user.TimeScore.Start();
-            }
-            return user;
         }
     }
 }

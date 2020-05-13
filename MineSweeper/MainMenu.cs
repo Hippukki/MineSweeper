@@ -19,16 +19,18 @@ namespace MineSweeper
 
         private void MainMenu_Load(object sender, EventArgs e)
         {
-           
+            
         }
 
         private void Button1_Click(object sender, EventArgs e)
         {
+            var user = UsersDB.GetInstance().CreateUser();
+            user.NickName = textBox1.Text;
             Hide();
-            new GameField().ShowDialog();
+            new GameField(user).ShowDialog();
         }
 
-        private void TextBox1_TextChanged(object sender, EventArgs e)
+        private void TextBox1_Click(object sender, EventArgs e)
         {
             textBox1.Clear();
         }

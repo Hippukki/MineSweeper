@@ -87,6 +87,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serializer.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UsersDB.cs" />
     <EmbeddedResource Include="BadPlayWindow.resx">
@@ -150,6 +151,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Flag.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\five.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
