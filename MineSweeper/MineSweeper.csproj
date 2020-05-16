@@ -52,9 +52,6 @@
     <Compile Include="BadPlayWindow.Designer.cs">
       <DependentUpon>BadPlayWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Bomb.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Cell.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -81,9 +78,6 @@
     </Compile>
     <Compile Include="MainMenu.Designer.cs">
       <DependentUpon>MainMenu.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Number.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -154,6 +148,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\five.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUTTON.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

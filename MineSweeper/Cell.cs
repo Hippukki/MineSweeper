@@ -10,11 +10,15 @@ namespace MineSweeper
 {
     public class Cell : Button
     {
-        public Number Number { get; set; }
+        public bool Number { get; set; }
         public bool IsOpen;
-        public Bomb Bomb { get; set; }
+        public bool IsFlag;
+        public int xCoord;
+        public int yCoord;
+        public bool WasAdded;
+        public bool Bomb { get; set; }
 
-        public Cell( bool IsOpen, Number Number, Bomb Bomb)
+        public Cell( bool IsOpen, bool Number, bool Bomb)
         {
             this.IsOpen = IsOpen;
             this.Number = Number;

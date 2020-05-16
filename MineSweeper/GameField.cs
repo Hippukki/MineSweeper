@@ -14,12 +14,14 @@ namespace MineSweeper
 {
     public partial class GameField : Form
     {
+        Stopwatch stopwatch = new Stopwatch();
         int distancebetweenbuttons = 30;
-        int countbomb = 0;
         int width = 10;
         int height = 10;
+        bool FirstClick = false;
         List<Cell> cells = new List<Cell>();
         Cell[,] cellsfield;
+        int wincount = 0;
         public User user;
         public GameField()
         {
@@ -29,9 +31,7 @@ namespace MineSweeper
         {
             InitializeComponent();
             this.user = user;
-            start_timer(user);
-
-
+            stopwatch.Start();
         }
 
         private void GameField_Load(object sender, EventArgs e)
@@ -46,17 +46,19 @@ namespace MineSweeper
             {
                 for (int x = 0; x < height; x++)
                 {
-                    Cell cell = new Cell(false, null, null);
+                    Cell cell = new Cell(false, false, false);
                     cell.Location = new Point(x * distancebetweenbuttons, y * distancebetweenbuttons);
                     cell.Size = new Size(distancebetweenbuttons, distancebetweenbuttons);
                     if (rnd.Next(0, 100) < 20)
                     {
-                        cell.Bomb = new Bomb(false, countbomb++);
+                        cell.Bomb = true;
                     }
                     else
                     {
-                        cell.Number = new Number("", 0);
+                        cell.Number = true;
                     }
+                    cell.xCoord = x;
+                    cell.yCoord = y;
                     Controls.Add(cell);
                     cell.MouseUp += new MouseEventHandler(ClickOnCell);
                     cells.Add(cell);
@@ -68,79 +70,60 @@ namespace MineSweeper
         void ClickOnCell(object sender, MouseEventArgs e)
         {
             Cell cell = (Cell)sender;
-            if (e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Left && cell.IsFlag == false)
             {
-                if (cell.Bomb != null)
+                if (cell.Bomb == true)
                 {
-                    Boom();
-                    cell.Bomb.IsBlown = true;
-                    this.Close();
+                    if(FirstClick == false)
+                    {
+                        cell.Bomb = false;
+                        cell.Number = true;
+                        FirstClick = true;
+                    }
+                    else
+                    {
+                        Boom();
+                        this.Close();
+                    }
                 }
-                else if (cell.Number != null)
+                else if (cell.Number == true)
                 {
-                    ClickingEmptyCell(cell);
-                    cell.IsOpen = true;
+                    FirstClick = true;
+                    OpeningEmptyCells(cell.xCoord, cell.yCoord, cell);
                 }
             }
             else if (e.Button == MouseButtons.Right)
             {
-                cell.Image = Resources.Flag;
-                if (cell.Bomb != null)
-                    cell.Bomb = null;
+                if(cell.IsFlag == false)
+                {
+                    cell.IsFlag = true;
+                    cell.IsOpen = true;
+                    cell.Image = Resources.Flag;
+                }
+                else if(cell.IsFlag == true)
+                {
+                    cell.IsFlag = false;
+                    cell.IsOpen = false;
+                    cell.Image = Resources.BUTTON;
+                }
             }
+            CheckWin();
         }
         public void Boom()
         {
             foreach (Cell cell in cells)
             {
-                if (cell.Bomb != null)
+                if (cell.Bomb == true)
                 {
                     cell.Image = Resources.Bomb;
                 }
                 else
                 {
-                    ClickingEmptyCell(cell);
+                    OpeningEmptyCells(cell.xCoord, cell.yCoord, cell);
                 }
             }
+            StopTime();
             new BadPlayWindow().ShowDialog();
-        }
-        public void ClickingEmptyCell(Cell cell)
-        {
-            int bombsAround = 0;
-            for (int y = 0; y < width; y++)
-            {
-                for (int x = 0; x < height; x++)
-                {
-                    if (cellsfield[x, y] == cell)
-                    {
-                        bombsAround = CountBombsAround(x, y);
-                    }
-                }
-            }
-            if (bombsAround == 0)
-            {
-                cell.Image = Resources.Nothing;
-            }
-            else if(bombsAround == 1)
-            {
-                cell.Image = Resources.One;
-            }
-            else if(bombsAround == 2)
-            {
-                cell.Image = Resources.Two;
-            }
-            else if(bombsAround == 3)
-            {
-                cell.Image = Resources.three;
-            }
-            else if(bombsAround == 4)
-            {
-                cell.Image = Resources.four;
-            }
-            else if(bombsAround == 5)
-            {
-                cell.Image = Resources.five;
-            }
         }
         int CountBombsAround(int abscissa, int ordinate)
         {
@@ -151,7 +134,7 @@ namespace MineSweeper
                 {
                     if (x >= 0 && x < height && y >= 0 && y < width)
                     {
-                        if (cellsfield[x, y].Bomb != null)
+                        if (cellsfield[x, y].Bomb == true)
                         {
                             bombsAround++;
                         }
@@ -160,23 +143,84 @@ namespace MineSweeper
             }
             return bombsAround;
         }
-        public void start_timer(User user)
+        public void StopTime()
         {
-            user.Timer = DateTime.Now;
-
-            Timer timer = new Timer();
-            timer.Interval = 10;
-            timer.Tick += new EventHandler(tickTimer);
-            timer.Start();
+            stopwatch.Stop();
+            TimeSpan ts = stopwatch.Elapsed;
+            user.Time = String.Format("{1:00}:{2:00}",
+            ts.Hours, ts.Minutes, ts.Seconds,
+            ts.Milliseconds / 10);
         }
-
-        public void tickTimer(object sender, EventArgs e)
+        void OpeningEmptyCells(int abscissa, int ordinate, Cell cell)
         {
-            long tick = DateTime.Now.Ticks - user.Timer.Ticks;
-            DateTime stopWatch = new DateTime();
-
-            stopWatch = stopWatch.AddTicks(tick);
-            label1.Text = String.Format("{0:mm:ss}", stopWatch);
+            Queue<Cell> queue = new Queue<Cell>();
+            queue.Enqueue(cell);
+            while (queue.Count > 0)
+            {
+                Cell cell1 = queue.Dequeue();
+                OpenCell(cell1.xCoord, cell1.yCoord, cell1);
+                if (CountBombsAround(cell1.xCoord, cell1.yCoord) == 0)
+                {
+                    for (int y = cell1.yCoord - 1; y <= cell1.yCoord + 1; y++)
+                    {
+                        for (int x = cell1.xCoord - 1; x <= cell1.xCoord + 1; x++)
+                        {
+                            if (x >= 0 && x < height && y >= 0 && y < width)
+                            {
+                                if (!cellsfield[x, y].WasAdded)
+                                {
+                                    queue.Enqueue(cellsfield[x, y]);
+                                    cellsfield[x, y].WasAdded = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        void OpenCell(int x, int y, Cell cell)
+        {
+            cell.IsOpen = true;
+            int bombsAround = CountBombsAround(x, y);
+            if (bombsAround == 0)
+            {
+                cell.Image = Resources.Nothing;
+            }
+            else if (bombsAround == 1)
+            {
+                cell.Image = Resources.One;
+            }
+            else if (bombsAround == 2)
+            {
+                cell.Image = Resources.Two;
+            }
+            else if (bombsAround == 3)
+            {
+                cell.Image = Resources.three;
+            }
+            else if (bombsAround == 4)
+            {
+                cell.Image = Resources.four;
+            }
+            else if (bombsAround == 5)
+            {
+                cell.Image = Resources.five;
+            }
+        }
+        void CheckWin()
+        {
+            wincount = 0;
+            foreach(Cell cell1 in cells)
+            {
+                if(cell1.IsOpen == true)
+                {
+                    wincount++;
+                }
+            }
+            if(wincount == width*height)
+            {
+                new GoodPlayWindow().ShowDialog();
+            }
         }
 
     }

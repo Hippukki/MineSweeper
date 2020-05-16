@@ -26,6 +26,10 @@ namespace MineSweeper
         {
             var user = UsersDB.GetInstance().CreateUser();
             user.NickName = textBox1.Text;
+            if(user.NickName == null)
+            {
+                user.NickName = "NickName";
+            }
             Hide();
             new GameField(user).ShowDialog();
         }
@@ -33,6 +37,11 @@ namespace MineSweeper
         private void TextBox1_Click(object sender, EventArgs e)
         {
             textBox1.Clear();
+        }
+
+        private void Button2_Click(object sender, EventArgs e)
+        {
+            new HighScoreTable().ShowDialog();
         }
     }
 }
