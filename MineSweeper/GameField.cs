@@ -12,25 +12,54 @@ using MineSweeper.Properties;
 
 namespace MineSweeper
 {
+    // Форма "Игровое поле"
     public partial class GameField : Form
     {
         Stopwatch stopwatch = new Stopwatch();
         int distancebetweenbuttons = 30;
-        int width = 10;
-        int height = 10;
+        int width;
+        int height;
+        int countmines;
+        int countcells;
+        int ChosedLevel;
         bool FirstClick = false;
         List<Cell> cells = new List<Cell>();
         Cell[,] cellsfield;
-        int wincount = 0;
-        public User user;
+        User user;
+        UsersDB users;
         public GameField()
         {
             InitializeComponent();
         }
-        public GameField(User user)
+        public GameField(User user, int ChosedLevel)// Получаем пользователя из главной формы, определяем уровень сложности и запускаем секундомер
         {
             InitializeComponent();
+            this.ChosedLevel = ChosedLevel;
             this.user = user;
+            if (ChosedLevel == 0)
+            {
+                user.Difficult = "Easy";
+                width = 10;
+                height = 10;
+                countmines = 1;
+                countcells = 100;
+            }
+            else if(ChosedLevel == 1)
+            {
+                user.Difficult = "Middle";
+                width = 15;
+                height = 15;
+                countmines = 40;
+                countcells = 225;
+            }
+            else if(ChosedLevel == 2)
+            {
+                user.Difficult = "Hard";
+                width = 20;
+                height = 20;
+                countmines = 80;
+                countcells = 400;
+            }
             stopwatch.Start();
         }
 
@@ -38,9 +67,9 @@ namespace MineSweeper
         {
             CellGeneration();
         }
-        public void CellGeneration()
+        public void CellGeneration()// Создаём и разтавляем ячейки по полю
         {
-            cellsfield = new Cell[width, height];
+            cellsfield = new Cell[width, height];// Инициализируем массив ячеек
             Random rnd = new Random();
             for (int y = 0; y < width; y++)
             {
@@ -49,7 +78,7 @@ namespace MineSweeper
                     Cell cell = new Cell(false, false, false);
                     cell.Location = new Point(x * distancebetweenbuttons, y * distancebetweenbuttons);
                     cell.Size = new Size(distancebetweenbuttons, distancebetweenbuttons);
-                    if (rnd.Next(0, 100) < 20)
+                    if (rnd.Next(0, countcells) < countmines)// Делаем ячейки бомбами в рандомном порядке
                     {
                         cell.Bomb = true;
                     }
@@ -57,24 +86,24 @@ namespace MineSweeper
                     {
                         cell.Number = true;
                     }
-                    cell.xCoord = x;
+                    cell.xCoord = x;// Присваеваем ячейкам их координаты
                     cell.yCoord = y;
-                    Controls.Add(cell);
-                    cell.MouseUp += new MouseEventHandler(ClickOnCell);
-                    cells.Add(cell);
-                    cellsfield[x, y] = cell;
+                    Controls.Add(cell);// Добавляем ячейки в коллекцию элементов управления
+                    cell.MouseUp += new MouseEventHandler(ClickOnCell);// Добавляем ячейкам событие "Нажатие на ячейку"
+                    cells.Add(cell);// Добавляем ячейки в список
+                    cellsfield[x, y] = cell;// А здесь в массив
                 }
             }
         }
 
-        void ClickOnCell(object sender, MouseEventArgs e)
+        void ClickOnCell(object sender, MouseEventArgs e)// Событие "Нажатие на кнопку"
         {
             Cell cell = (Cell)sender;
-            if (e.Button == MouseButtons.Left && cell.IsFlag == false)
+            if (e.Button == MouseButtons.Left && cell.IsFlag == false)// Нажали на левую кнопку
             {
-                if (cell.Bomb == true)
+                if (cell.Bomb == true)// Ячейка = бомба
                 {
-                    if(FirstClick == false)
+                    if(FirstClick == false)// Если это первое нажатие с начала игры
                     {
                         cell.Bomb = false;
                         cell.Number = true;
@@ -86,30 +115,30 @@ namespace MineSweeper
                         this.Close();
                     }
                 }
-                else if (cell.Number == true)
+                else if (cell.Number == true)// Ячейка != бомба
                 {
                     FirstClick = true;
-                    OpeningEmptyCells(cell.xCoord, cell.yCoord, cell);
+                    OpeningEmptyCells(cell.xCoord, cell.yCoord, cell);// Открываем ячейку
                 }
             }
-            else if (e.Button == MouseButtons.Right)
+            else if (e.Button == MouseButtons.Right)// Нажали на правую кнопку
             {
-                if(cell.IsFlag == false)
+                if(cell.IsFlag == false)// Если нет флага
                 {
                     cell.IsFlag = true;
                     cell.IsOpen = true;
                     cell.Image = Resources.Flag;
                 }
-                else if(cell.IsFlag == true)
+                else if(cell.IsFlag == true)// Если есть
                 {
                     cell.IsFlag = false;
                     cell.IsOpen = false;
                     cell.Image = Resources.BUTTON;
                 }
             }
-            CheckWin();
+            CheckWin();// Проверка сколько ячеек открыто
         }
-        public void Boom()
+        public void Boom()// Взрыв при нажатии на бомбу
         {
             foreach (Cell cell in cells)
             {
@@ -122,10 +151,9 @@ namespace MineSweeper
                     OpeningEmptyCells(cell.xCoord, cell.yCoord, cell);
                 }
             }
-            StopTime();
-            new BadPlayWindow().ShowDialog();
+            new BadPlayWindow(user, ChosedLevel).ShowDialog();// Открываем форму "Вы проиграли" и передаём туда пользователя
         }
-        int CountBombsAround(int abscissa, int ordinate)
+        int CountBombsAround(int abscissa, int ordinate)// Подсчитывает сколько бомб вокруг ячейки с координатами, которые мы передали в метод
         {
             int bombsAround = 0;
             for (int x = abscissa - 1; x <= abscissa + 1; x++)
@@ -143,31 +171,33 @@ namespace MineSweeper
             }
             return bombsAround;
         }
-        public void StopTime()
+        public void StopTime()// Останавливаем секундомер, присваеваем значение времени пользователю и сохраняем его в коллекции
         {
             stopwatch.Stop();
             TimeSpan ts = stopwatch.Elapsed;
             user.Time = String.Format("{1:00}:{2:00}",
             ts.Hours, ts.Minutes, ts.Seconds,
             ts.Milliseconds / 10);
+            users = UsersDB.GetInstance();
+            users.Save(user);
         }
-        void OpeningEmptyCells(int abscissa, int ordinate, Cell cell)
+        void OpeningEmptyCells(int abscissa, int ordinate, Cell cell)// Открывает ячейку и все соседние, если они пустые
         {
             Queue<Cell> queue = new Queue<Cell>();
-            queue.Enqueue(cell);
+            queue.Enqueue(cell);// Добавляем ячейку в очередь
             while (queue.Count > 0)
             {
-                Cell cell1 = queue.Dequeue();
-                OpenCell(cell1.xCoord, cell1.yCoord, cell1);
+                Cell cell1 = queue.Dequeue();// Извлекаем ячейку из очереди
+                OpenCell(cell1.xCoord, cell1.yCoord, cell1);// Открываем её
                 if (CountBombsAround(cell1.xCoord, cell1.yCoord) == 0)
                 {
                     for (int y = cell1.yCoord - 1; y <= cell1.yCoord + 1; y++)
                     {
-                        for (int x = cell1.xCoord - 1; x <= cell1.xCoord + 1; x++)
+                        for (int x = cell1.xCoord - 1; x <= cell1.xCoord + 1; x++)// если бомб вокруг ноль, то добавляем соседние ячейки и проверяем наличие бомб вокруг них
                         {
-                            if (x >= 0 && x < height && y >= 0 && y < width)
+                            if (x >= 0 && x < height && y >= 0 && y < width)// Устанавливаем ограничение, чтобы не выйти за границы игрового поля
                             {
-                                if (!cellsfield[x, y].WasAdded)
+                                if (!cellsfield[x, y].WasAdded)// Проверяем была эта ячейка уже проверена ранее или нет
                                 {
                                     queue.Enqueue(cellsfield[x, y]);
                                     cellsfield[x, y].WasAdded = true;
@@ -178,48 +208,50 @@ namespace MineSweeper
                 }
             }
         }
-        void OpenCell(int x, int y, Cell cell)
+        void OpenCell(int x, int y, Cell cell)//Присваеваем ячейке значение количества бомб вокруг неё 
         {
             cell.IsOpen = true;
             int bombsAround = CountBombsAround(x, y);
             if (bombsAround == 0)
             {
-                cell.Image = Resources.Nothing;
+                cell.Image = Resources.Nothing;//Ничего
             }
             else if (bombsAround == 1)
             {
-                cell.Image = Resources.One;
+                cell.Image = Resources.One;//Один
             }
             else if (bombsAround == 2)
             {
-                cell.Image = Resources.Two;
+                cell.Image = Resources.Two;//Два
             }
             else if (bombsAround == 3)
             {
-                cell.Image = Resources.three;
+                cell.Image = Resources.three;//Три
             }
             else if (bombsAround == 4)
             {
-                cell.Image = Resources.four;
+                cell.Image = Resources.four;//Четыре
             }
             else if (bombsAround == 5)
             {
-                cell.Image = Resources.five;
+                cell.Image = Resources.five;//Пять
             }
         }
-        void CheckWin()
+        void CheckWin()//Проверяем сколько ячеек открыто
         {
-            wincount = 0;
-            foreach(Cell cell1 in cells)
+            int wincount = 0;
+            foreach(Cell cell in cells)
             {
-                if(cell1.IsOpen == true)
+                if(cell.IsOpen == true)
                 {
                     wincount++;
                 }
             }
-            if(wincount == width*height)
+            if(wincount == width*height)//Если открыты все, то останавливаем время и открываем форму "Вы победили"
             {
+                StopTime();
                 new GoodPlayWindow().ShowDialog();
+                this.Close();
             }
         }
 

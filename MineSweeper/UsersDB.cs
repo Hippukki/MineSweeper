@@ -12,6 +12,7 @@ namespace MineSweeper
     [Serializable]
     class UsersDB
     {
+        // Класс с командами для пользователей и их хранения
         Dictionary<int, User> users;
         Serializer<Dictionary<int, User>> serializer;
         string filePath;
@@ -33,21 +34,25 @@ namespace MineSweeper
             users = serializer.Load(ref autoincrement);
         }
 
-        public void Save()
+        public void Save(User user)
         {
+            users.Add(user.ID, user);
             serializer.Save(users, autoincrement);
         }
 
         public User CreateUser()
         {
             var user = new User(autoincrement++);
-            users.Add(user.ID, user);
             return user;
         }
         public List<User> GetUsers()
         {
             return users.
                 Select(s => s.Value)?.ToList();
+        }
+        public void ClearUsers()
+        {
+            users.Clear();
         }
     }
 }

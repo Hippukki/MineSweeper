@@ -10,6 +10,7 @@ namespace MineSweeper
 {
     public class Cell : Button
     {
+        // Класс ячейки
         public bool Number { get; set; }
         public bool IsOpen;
         public bool IsFlag;
