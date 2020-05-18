@@ -109,7 +109,7 @@
             this.easyToolStripMenuItem.BackColor = System.Drawing.SystemColors.GrayText;
             this.easyToolStripMenuItem.ForeColor = System.Drawing.SystemColors.MenuHighlight;
             this.easyToolStripMenuItem.Name = "easyToolStripMenuItem";
-            this.easyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.easyToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.easyToolStripMenuItem.Text = "Easy";
             this.easyToolStripMenuItem.Click += new System.EventHandler(this.EasyToolStripMenuItem_Click);
             // 
@@ -118,7 +118,7 @@
             this.middleToolStripMenuItem.BackColor = System.Drawing.SystemColors.GrayText;
             this.middleToolStripMenuItem.ForeColor = System.Drawing.Color.Navy;
             this.middleToolStripMenuItem.Name = "middleToolStripMenuItem";
-            this.middleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.middleToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.middleToolStripMenuItem.Text = "Middle";
             this.middleToolStripMenuItem.Click += new System.EventHandler(this.MiddleToolStripMenuItem_Click);
             // 
@@ -127,7 +127,7 @@
             this.hardToolStripMenuItem.BackColor = System.Drawing.SystemColors.GrayText;
             this.hardToolStripMenuItem.ForeColor = System.Drawing.Color.Red;
             this.hardToolStripMenuItem.Name = "hardToolStripMenuItem";
-            this.hardToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.hardToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.hardToolStripMenuItem.Text = "Hard";
             this.hardToolStripMenuItem.Click += new System.EventHandler(this.HardToolStripMenuItem_Click);
             // 
@@ -146,7 +146,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainMenu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "MainMenu";
+            this.Text = "MineSweeper";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainMenu_FormClosed);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

@@ -35,12 +35,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(117, 77);
+            this.ClientSize = new System.Drawing.Size(77, 261);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "GameField";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "GameField";
+            this.Text = "MineSweeper";
             this.Load += new System.EventHandler(this.GameField_Load);
             this.ResumeLayout(false);
 

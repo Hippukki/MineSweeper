@@ -95,7 +95,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "BadPlayWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "BadPlayWindow";
+            this.Text = "MineSweeper";
             this.ResumeLayout(false);
             this.PerformLayout();
 

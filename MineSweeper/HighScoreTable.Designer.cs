@@ -83,7 +83,7 @@
             this.Controls.Add(this.listView1);
             this.Name = "HighScoreTable";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "HighScoreTable";
+            this.Text = "MineSweeper";
             this.ResumeLayout(false);
 
         }

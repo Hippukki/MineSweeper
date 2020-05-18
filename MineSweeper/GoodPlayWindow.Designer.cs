@@ -67,7 +67,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "GoodPlayWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "GoodPlayWindow";
+            this.Text = "MineSweeper";
             this.Load += new System.EventHandler(this.GoodPlayWindow_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
