@@ -41,9 +41,9 @@
             // 
             // button1
             // 
-            this.button1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.button1.BackColor = System.Drawing.Color.Maroon;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.ForeColor = System.Drawing.Color.Lime;
+            this.button1.ForeColor = System.Drawing.Color.Snow;
             this.button1.Location = new System.Drawing.Point(129, 97);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(118, 39);
@@ -93,41 +93,41 @@
             // 
             // levelOfDifficultyToolStripMenuItem
             // 
-            this.levelOfDifficultyToolStripMenuItem.BackColor = System.Drawing.SystemColors.GrayText;
+            this.levelOfDifficultyToolStripMenuItem.BackColor = System.Drawing.Color.Maroon;
             this.levelOfDifficultyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.easyToolStripMenuItem,
             this.middleToolStripMenuItem,
             this.hardToolStripMenuItem});
             this.levelOfDifficultyToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.levelOfDifficultyToolStripMenuItem.ForeColor = System.Drawing.Color.DarkRed;
+            this.levelOfDifficultyToolStripMenuItem.ForeColor = System.Drawing.Color.Snow;
             this.levelOfDifficultyToolStripMenuItem.Name = "levelOfDifficultyToolStripMenuItem";
             this.levelOfDifficultyToolStripMenuItem.Size = new System.Drawing.Size(119, 20);
             this.levelOfDifficultyToolStripMenuItem.Text = "Level of Difficulty";
             // 
             // easyToolStripMenuItem
             // 
-            this.easyToolStripMenuItem.BackColor = System.Drawing.SystemColors.GrayText;
-            this.easyToolStripMenuItem.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.easyToolStripMenuItem.BackColor = System.Drawing.Color.Maroon;
+            this.easyToolStripMenuItem.ForeColor = System.Drawing.Color.Snow;
             this.easyToolStripMenuItem.Name = "easyToolStripMenuItem";
-            this.easyToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.easyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.easyToolStripMenuItem.Text = "Easy";
             this.easyToolStripMenuItem.Click += new System.EventHandler(this.EasyToolStripMenuItem_Click);
             // 
             // middleToolStripMenuItem
             // 
-            this.middleToolStripMenuItem.BackColor = System.Drawing.SystemColors.GrayText;
-            this.middleToolStripMenuItem.ForeColor = System.Drawing.Color.Navy;
+            this.middleToolStripMenuItem.BackColor = System.Drawing.Color.Maroon;
+            this.middleToolStripMenuItem.ForeColor = System.Drawing.Color.Snow;
             this.middleToolStripMenuItem.Name = "middleToolStripMenuItem";
-            this.middleToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.middleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.middleToolStripMenuItem.Text = "Middle";
             this.middleToolStripMenuItem.Click += new System.EventHandler(this.MiddleToolStripMenuItem_Click);
             // 
             // hardToolStripMenuItem
             // 
-            this.hardToolStripMenuItem.BackColor = System.Drawing.SystemColors.GrayText;
-            this.hardToolStripMenuItem.ForeColor = System.Drawing.Color.Red;
+            this.hardToolStripMenuItem.BackColor = System.Drawing.Color.Maroon;
+            this.hardToolStripMenuItem.ForeColor = System.Drawing.Color.Snow;
             this.hardToolStripMenuItem.Name = "hardToolStripMenuItem";
-            this.hardToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.hardToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.hardToolStripMenuItem.Text = "Hard";
             this.hardToolStripMenuItem.Click += new System.EventHandler(this.HardToolStripMenuItem_Click);
             // 
