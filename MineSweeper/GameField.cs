@@ -49,7 +49,7 @@ namespace MineSweeper
                 user.Difficult = "Middle";
                 width = 15;
                 height = 15;
-                countmines = 40;
+                countmines = 45;
                 countcells = 225;
             }
             else if(ChosedLevel == 2)
@@ -57,7 +57,7 @@ namespace MineSweeper
                 user.Difficult = "Hard";
                 width = 20;
                 height = 20;
-                countmines = 80;
+                countmines = 90;
                 countcells = 400;
             }
             stopwatch.Start();
