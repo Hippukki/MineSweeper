@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace MineSweeper
 {
     [Serializable]
-    // Если честно, я вообще не понимаю что это за класс и как он тут появился
+    // без коментариев 
     public class Serializer<T>
     {
         static BinaryFormatter binaryFormatter =

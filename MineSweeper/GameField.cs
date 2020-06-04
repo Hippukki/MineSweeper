@@ -41,7 +41,7 @@ namespace MineSweeper
                 user.Difficult = "Easy";
                 width = 10;
                 height = 10;
-                countmines = 1;
+                countmines = 20;
                 countcells = 100;
             }
             else if(ChosedLevel == 1)
